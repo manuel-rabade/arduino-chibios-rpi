@@ -1,19 +1,23 @@
 #include "arduino.cpp"
 
 int led = 13;
-int status = 0;
+int button = 12;
 
 void setup() {
+  pinMode(button, INPUT);
   pinMode(led, OUTPUT);
+  digitalWrite(led, LOW);
 }
 
 void loop() {
-  if (status) {
-    status = 0;
-    digitalWrite(led, HIGH);
-  } else {
-    status = 1;
-    digitalWrite(led, LOW);
+  int i;
+  if (digitalRead(button) == LOW) {
+    for (i = 0; i < 3; i++) {
+      digitalWrite(led, HIGH);
+      delay(250);
+      digitalWrite(led, LOW);
+      delay(250);
+    }
   }
   delay(100);
 }
