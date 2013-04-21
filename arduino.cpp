@@ -27,6 +27,17 @@ void digitalWrite(uint8_t pin, uint8_t val)
   else if (val == LOW) palClearPad(port, pad);
 }
 
+int digitalRead(uint8_t pin)
+{
+  gpio_port_t* port = digital_pin_to_port[pin];
+  uint8_t pad = digital_pin_to_pad[pin];
+  
+  if (port == NULL || pad == 0) return NOT_INPUT;
+  
+  if (palReadPad(port, pad)) return HIGH;
+  return LOW;
+}
+
 /* serial */
 
 void Serial::begin(unsigned long baud)
