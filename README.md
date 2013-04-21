@@ -9,32 +9,22 @@ This is a just proof of concept that multiple threads inside a RTOS can "emulate
 
 The example pin configuration is:
 
-Raspberry Pi    Arduino #
-GPIO17          arduino0 pin 13
-GPIO22          arduino1 pin 13
-GPIO24          arduino2 pin 13
-GPIO25          arduino3 pin 13
+    Raspberry Pi    Arduino #
+    GPIO17          arduino0 pin 13
+    GPIO22          arduino1 pin 13
+    GPIO24          arduino2 pin 13
+    GPIO25          arduino3 pin 13
+    GPIO7           arduino3 pin 12
 
-To run (for OS X, sorry Linux is only at home):
+To build & run (for OS X, Linux is only at home sorry):
 
-1. Install yagarto
-
-http://www.yagarto.de/#downloadmac
-
-2. Clone ChibiOS for the RPi
-
-git clone https://github.com/steve-bate/ChibiOS-RPi
-
-3. Download bootcode.bin and start.elf in the sd card
-
-https://github.com/raspberrypi/firmware
-
-4. Build example
-
-git clone https://github.com/manuel-rabade/arduino-chibios-rpi
-cd arduino-chibios-rpi && make
-
-And copy build/ch.bin to the sd card under the name kernel.img
+1. Install yagarto: http://www.yagarto.de/#downloadmac
+2. Clone ChibiOS for the RPi: git clone https://github.com/steve-bate/ChibiOS-RPi
+3. Download bootcode.bin and start.elf in the sd card: https://github.com/raspberrypi/firmware
+4. Build this example: 
+    git clone https://github.com/manuel-rabade/arduino-chibios-rpi
+    cd arduino-chibios-rpi && make
+5. Copy build/ch.bin to the sd card under the name kernel.img
 
 To hack:
 
