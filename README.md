@@ -1,9 +1,7 @@
-arduino-chibios-rpi
-===================
+Arduinos on the Raspberry Pi
+============================
 
-This project solves an Ardusat challenge from the International Space Apps Challenge.
-
-It addresses the hardware level 3 challenge by using a Raspberry Pi running ChibiOS (a Real Time Operating System for embedded systems). Inside the RTOS lives threads that runs code with help of a library that tries to emulate the Arduino platform. The RTOS can be configured to map pins and devices betwen the Raspberry Pi and the virtual Arduinos allowing the maximun use of the sensors in an Ardustat. The code and configuration running on the Raspberry pi can be uploaded via serial console for remote management.
+This project solves the Ardusat hardware level 3 challenge by using a Raspberry Pi running ChibiOS (a Real Time Operating System for embedded systems). Inside the RTOS lives threads that runs code with help of a library that tries to emulate the Arduino platform. The RTOS can be configured to map pins and devices betwen the Raspberry Pi and the virtual Arduinos allowing the maximum use of the sensors in an Ardustat. The code and configuration running on the Raspberry pi can be uploaded via serial console for remote management.
 
 This is a proof of concept that multiple threads inside a RTOS can "emulate" an Arduino and it's not intended to be a full working prototype.
 
@@ -33,13 +31,15 @@ For OS X, (Linux is only at home, sorry):
 Hack
 ----
 
-1. Review main.cpp, it's the program entry point that spawns the threads
-2. Code for each arduino is arduino0.cpp, arduino1.cpp, arduino2.cpp and arduino3.cpp
-3. Configuration for each arduino is arduino0.h, arduino1.h, arduino2.h and arduino3.h
-4. The arduino.h and arduino.cpp is the library that "emulates" the Arduino plataform.
+1. main.cpp it's the entry point that spawns the threads
+2. arduino0.cpp, arduino1.cpp, arduino2.cpp and arduino3.cpp are the code for each Arduino
+3. arduino0.h, arduino1.h, arduino2.h and arduino3.h are the configuration for each Arduino
+4. arduino.h and arduino.cpp is the library that "emulates" the Arduino plataform.
 
 References
 ----------
 
 * Ardusat challenges: http://2013.spaceappschallenge.org/challenge/ardusat/
 * ChibiOS-RPi port and demos by Steve Bate: https://github.com/steve-bate/ChibiOS-RPi
+* Arduino languaje reference and source code: http://arduino.cc/en/Reference/HomePage
+* Raspberry Pi: http://www.raspberrypi.org/
