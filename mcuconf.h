@@ -19,14 +19,6 @@
 */
 
 /*
- * LPC214x drivers configuration.
- * The following settings override the default settings present in
- * the various device driver implementation headers.
- * Note that the settings for each driver only have effect if the driver
- * is enabled in halconf.h.
- */
-
-/*
  * ADC driver system settings.
  */
 
@@ -45,13 +37,11 @@
 /*
  * SERIAL driver system settings.
  */
-#define USE_LPC214x_UART0           TRUE
-#define USE_LPC214x_UART1           TRUE
-#define LPC214x_UART_FIFO_PRELOAD   16
-#define LPC214x_UART0_PRIORITY      1
-#define LPC214x_UART1_PRIORITY      2
 
 /*
  * SPI driver system settings.
  */
-#define USE_LPC214x_SPI1            TRUE
+
+/*
+ * I2C driver system settings.
+ */
