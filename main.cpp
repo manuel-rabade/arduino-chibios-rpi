@@ -9,19 +9,27 @@ using namespace chibios_rt;
 /* arduino */
 
 #define ARDUINOS 4
-#include "arduino0.h"
-#include "arduino1.h"
-#include "arduino2.h"
-#include "arduino3.h"
 
-static WORKING_AREA(waArduino[ARDUINOS], 32);
+#include "arduino/arduino.h"
+#include "arduino/arduino0.h"
+#include "arduino/arduino1.h"
+#include "arduino/arduino2.h"
+#include "arduino/arduino3.h"
+
+static WORKING_AREA(waArduino[ARDUINOS], 1024*1024);
+unsigned int enableArduino[ARDUINOS];
 
 static msg_t arduino0(void *arg) {
   (void) arg;
   chRegSetThreadName("arduino0");
   _arduino0::setup();
+  enableArduino[0] = TRUE;
   while (TRUE) {
-    _arduino0::loop();
+    if (enableArduino[0] == TRUE) {
+      _arduino0::loop();
+    } else {
+      chThdSleepMilliseconds(100);
+    }
   }
   return 0;
 }
@@ -30,8 +38,13 @@ static msg_t arduino1(void *arg) {
   (void) arg;
   chRegSetThreadName("arduino1");
   _arduino1::setup();
+  enableArduino[1] = TRUE;
   while (TRUE) {
-    _arduino1::loop();
+    if (enableArduino[1] == TRUE) {
+      _arduino1::loop();
+    } else {
+      chThdSleepMilliseconds(100);
+    }
   }
   return 0;
 }
@@ -40,18 +53,28 @@ static msg_t arduino2(void *arg) {
   (void) arg;
   chRegSetThreadName("arduino2");
   _arduino2::setup();
+  enableArduino[2] = TRUE;
   while (TRUE) {
-    _arduino2::loop();
+    if (enableArduino[2] == TRUE) {
+      _arduino2::loop();
+    } else {
+      chThdSleepMilliseconds(100);
+    }
   }
   return 0;
 }
-
+  
 static msg_t arduino3(void *arg) {
   (void) arg;
   chRegSetThreadName("arduino3");
   _arduino3::setup();
+  enableArduino[3] = TRUE;
   while (TRUE) {
-    _arduino3::loop();
+    if (enableArduino[3] == TRUE) {
+      _arduino3::loop();
+    } else {
+      chThdSleepMilliseconds(100);
+    }
   }
   return 0;
 }
@@ -77,6 +100,121 @@ static msg_t testThread(void *p) {
 /* shell */
 
 #define SHELL_WA_SIZE       THD_WA_SIZE(4096)
+
+static void cmd_status(BaseSequentialStream *chp, int argc, char *argv[]) {
+  unsigned int i;
+  (void) argv;
+
+  if (argc > 0) {
+    chprintf(chp, "Usage: status\r\n");
+    return;
+  }
+
+  for (i = 0; i < ARDUINOS; i++) {
+    chprintf(chp, "arduino%u: ", i);
+    if (enableArduino[i] == TRUE) {
+      chprintf(chp, "enabled");
+    } else {
+      chprintf(chp, "disabled");
+    }
+    chprintf(chp, "\r\n");
+  }
+}
+
+static void cmd_pause(BaseSequentialStream *chp, int argc, char *argv[]) {
+
+  if (argc != 1) {
+    chprintf(chp, "Usage: pause [arduino]\r\n");
+    return;
+  }
+
+  if (*argv[0] == '0') {
+    enableArduino[0] = FALSE;
+  } else if (*argv[0] == '1') {
+    enableArduino[1] = FALSE;
+  } else if (*argv[0] == '2') {
+    enableArduino[2] = FALSE;
+  } else if (*argv[0] == '3') {
+    enableArduino[3] = FALSE;
+  } else {
+    chprintf(chp, "invalid arduino\r\n");
+  }
+}
+
+static void cmd_resume(BaseSequentialStream *chp, int argc, char *argv[]) {
+
+  if (argc != 1) {
+    chprintf(chp, "Usage: resume [arduino]\r\n");
+    return;
+  }
+
+  if (*argv[0] == '0') {
+    enableArduino[0] = TRUE;
+  } else if (*argv[0] == '1') {
+    enableArduino[1] = TRUE;
+  } else if (*argv[0] == '2') {
+    enableArduino[2] = TRUE;
+  } else if (*argv[0] == '3') {
+    enableArduino[3] = TRUE;
+  } else {
+    chprintf(chp, "invalid arduino\r\n");
+  }
+}
+
+static void print_log(BaseSequentialStream *chp, msg_t ptr) {
+  struct _serialMsg *serialMsg = (_serialMsg *) ptr;
+  chprintf(chp, "%u: %s\r\n", serialMsg->timestamp, (char *) serialMsg->msg);
+  chHeapFree((void *) ptr);
+}
+
+static void cmd_log(BaseSequentialStream *chp, int argc, char *argv[]) {
+  msg_t ptr, result;
+
+  if (argc != 1) {
+    chprintf(chp, "Usage: log [arduino]\r\n");
+    return;
+  }
+
+  if (*argv[0] == '0') {
+    while (TRUE) {
+      result = chMBFetch(&_arduino0::mboxSerial, &ptr, TIME_IMMEDIATE);
+      if (result == RDY_OK) {
+        print_log(chp, ptr);
+      } else {
+        break;
+      }
+    }
+  } else if (*argv[0] == '1') {
+    while (TRUE) {
+      result = chMBFetch(&_arduino1::mboxSerial, &ptr, TIME_IMMEDIATE);
+      if (result == RDY_OK) {
+        print_log(chp, ptr);
+      } else {
+        break;
+      }
+    }
+  } else if (*argv[0] == '2') {
+    while (TRUE) {
+      result = chMBFetch(&_arduino2::mboxSerial, &ptr, TIME_IMMEDIATE);
+      if (result == RDY_OK) {
+        print_log(chp, ptr);
+      } else {
+        break;
+      }
+    }
+  } else if (*argv[0] == '3') {
+    while (TRUE) {
+      result = chMBFetch(&_arduino3::mboxSerial, &ptr, TIME_IMMEDIATE);
+      if (result == RDY_OK) {
+        print_log(chp, ptr);
+      } else {
+        break;
+      }
+    }
+  } else {
+    chprintf(chp, "invalid arduino\r\n");
+  }
+}
 
 static void cmd_mem(BaseSequentialStream *chp, int argc, char *argv[]) {
   size_t n, size;
@@ -122,10 +260,14 @@ static void cmd_reboot(BaseSequentialStream *chp, int argc, char *argv[]) {
 }
 
 static const ShellCommand commands[] = {
-  {"mem", cmd_mem},
-  {"threads", cmd_threads},
-  {"reboot", cmd_reboot},
-  {NULL, NULL}
+  { "status", cmd_status },
+  { "resume", cmd_resume },
+  { "pause", cmd_pause },
+  { "log", cmd_log },
+  { "mem", cmd_mem },
+  { "threads", cmd_threads },
+  { "reboot", cmd_reboot },
+  { NULL, NULL }
 };
 
 static const ShellConfig shell_config = {
@@ -140,14 +282,14 @@ int main(void) {
   halInit();
   System::Init();
 
-  sdStart(&SD1, NULL);
-  chprintf((BaseSequentialStream *)&SD1, "\r\nArdusat-RPi started\r\n");
+  chThdCreateStatic(waTestThread, sizeof(waTestThread), NORMALPRIO, testThread, NULL);
 
-  chThdCreateStatic(waTestThread, sizeof(waTestThread), LOWPRIO, testThread, NULL);
+  sdStart(&SD1, NULL);
+  chprintf((BaseSequentialStream *)&SD1, "\r\nArdusat-RPi started");
 
   shellInit();
-  shellCreate(&shell_config, SHELL_WA_SIZE, LOWPRIO);
-
+  shellCreate(&shell_config, SHELL_WA_SIZE, NORMALPRIO);
+  
   chThdCreateStatic(waArduino[0], sizeof(waArduino[0]), NORMALPRIO, arduino0, NULL);
   chThdCreateStatic(waArduino[1], sizeof(waArduino[1]), NORMALPRIO, arduino1, NULL);
   chThdCreateStatic(waArduino[2], sizeof(waArduino[2]), NORMALPRIO, arduino2, NULL);
