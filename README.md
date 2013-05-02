@@ -1,20 +1,6 @@
 Arduinos on the Raspberry Pi
 ============================
 
-This project solves the Ardusat hardware level 3 challenge by using a Raspberry Pi running ChibiOS (a Real Time Operating System for embedded systems). Inside ChibiOS threads runs Arduino code with help of a library that mimics the Arduino platform. The RTOS can be configured to map pins and devices betwen the Raspberry Pi and the virtual Arduinos allowing the maximum use of the sensors in Ardustat. The code and configuration running on the Raspberry pi can be uploaded via serial console for remote management.
-
-## Build & Run
-
-#### Wire the prototype
-
-See [Arduinos on the Raspberry Pi schematics](https://raw.github.com/manuel-rabade/arduino-chibios-rpi/master/schematic/arduinos-on-the-raspberry-pi.png)
-
-#### Install the GNU ARM toolchain
-
-In MAC OS X you can use [Yagarto](http://www.yagarto.de/#downloadmac) and in Linux you can use [yol](https://github.com/phaenovum/yol).
-
-#### Get ChibiOS for the RPi
-
     git clone https://github.com/steve-bate/ChibiOS-RPi
 
 #### Get Arduinos on the Raspbery Pi
@@ -28,7 +14,7 @@ In MAC OS X you can use [Yagarto](http://www.yagarto.de/#downloadmac) and in Lin
 
 #### Setup SD card
 
-Copy bootloader/kernel.img to the SD card. Download [bootcode.bin and start.elf](https://github.com/raspberrypi/firmware) and copy them to the SD card.
+Copy arduino-chibios-rpi/bootloader/kernel.img to the SD card. Download [bootcode.bin and start.elf](https://github.com/raspberrypi/firmware) and copy them to the SD card.
 
 #### Serial console
 
@@ -41,13 +27,13 @@ Install minicom and configure it:
 
 #### Boot
 
-Power your Raspberry Pi and upload build/ch.bin using XModem.
+Power your Raspberry Pi and upload arduino-chibios-rpi/build/ch.bin using XModem.
 
 ## Serial console
 
-Once ChibiOS has been uploaded the following commands can be used in the serial console:
+Once ChibiOS has been uploaded the following commands are available in the serial shell:
 
-* status: see virtual Arduino status
+* status: get virtual Arduinos status
 * pause [arduino #]: pause operation of a virtual Arduino
 * resume [arduino #]: resume operation of a virtual Arduino
 * log [arduino #]: get the serial buffer of a virtual Arduino
@@ -70,10 +56,13 @@ This project map the following Raspberry Pi pins to virtual Arduino pins:
 
 ## Hack
 
-1. main.cpp it's the entry point that spawns the threads
-2. arduino/arduino0.cpp, arduino/arduino1.cpp, arduino/arduino2.cpp and arduino/arduino3.cpp are the code for each Arduino
-3. arduino/arduino0.h, arduino/arduino1.h, arduino/arduino2.h and arduino/arduino3.h are the configuration for each Arduino
-4. arduino/arduino.h and arduino/arduino.cpp is the library that "emulates" the Arduino plataform.
+arduino-chibios-rpi/main.cpp it's the entry point that spawns the threads.
+
+arduino-chibios-rpi/arduino/arduino0.cpp, arduino-chibios-rpi/arduino/arduino1.cpp, arduino-chibios-rpi/arduino/arduino2.cpp and arduino-chibios-rpi/arduino/arduino3.cpp are the code for each virtual Arduino.
+
+arduino-chibios-rpi/arduino-chibios-rpi/arduino/arduino0.h, arduino-chibios-rpi/arduino/arduino1.h, arduino-chibios-rpi/arduino/arduino2.h and arduino-chibios-rpi/arduino/arduino3.h are the configuration for each Arduino.
+
+arduino-chibios-rpi/arduino/arduino.h and arduino-chibios-rpi/arduino/arduino.cpp is the library that "emulates" the Arduino plataform.
 
 ## References
 
