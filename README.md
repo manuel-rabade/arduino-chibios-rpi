@@ -66,7 +66,7 @@ Serial console
 
 Once ChibiOS has been uploaded the following commands are available in the serial shell:
 
-* Virtual Arduinos status
+#### Virtual Arduinos status
 
     status
 
