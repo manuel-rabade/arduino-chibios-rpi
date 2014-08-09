@@ -66,18 +66,41 @@ Serial console
 
 Once ChibiOS has been uploaded the following commands are available in the serial shell:
 
-#### Virtual Arduinos status
+*Virtual Arduinos status*
 
-    status
+    ch> status
 
-* Pause operation of a virtual Arduino: `pause [arduino #]`
-* Resume operation of a virtual Arduino: `resume [arduino #]`
-* Retrive serial buffer of a virtual Arduino: `log [arduino #]` 
-* ChibiOS memory usage: `mem`
-* ChibiOS threads status: `threads`
-* ChibiOS build information: `info`
-* System time: `systime`
-* Reboot ChibiOS: `reboot`
+*Pause operation of a virtual Arduino*
+
+    ch> pause [arduino #]
+
+*Resume operation of a virtual Arduino*
+
+    ch> resume [arduino #]
+
+*Retrive serial buffer of a virtual Arduino*
+
+    ch> log [arduino #]
+
+*Memory usage*
+
+    ch> mem
+
+*Threads status*
+
+    ch> threads
+
+*ChibiOS build information*
+
+    ch> info
+
+*System time*
+
+    ch> systime
+
+*Reboot*
+
+    ch> reboot
 
 I/O configuration
 -----------------
@@ -136,8 +159,8 @@ References
 * [Raspberry Pi
   bootloader](https://github.com/dwelch67/raspberrypi/tree/master/bootloader05)
   by David Welch
-* [Arduino languaje reference and source
-  code](http://arduino.cc/en/Reference/HomePage)
+* [Arduino languaje reference](http://arduino.cc/en/Reference/HomePage)
+* [Arduino source code](http://github.com/arduino/Arduino)
 * [Raspberry Pi Low-level
   peripherals](http://elinux.org/RPi_Low-level_peripherals)
 
