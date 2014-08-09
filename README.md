@@ -66,39 +66,39 @@ Serial console
 
 Once ChibiOS has been uploaded the following commands are available in the serial shell:
 
-*Virtual Arduinos status*
+**Virtual Arduinos status**
 
     ch> status
 
-*Pause operation of a virtual Arduino*
+**Pause operation of a virtual Arduino**
 
     ch> pause [arduino #]
 
-*Resume operation of a virtual Arduino*
+**Resume operation of a virtual Arduino**
 
     ch> resume [arduino #]
 
-*Retrive serial buffer of a virtual Arduino*
+**Retrive serial buffer of a virtual Arduino**
 
     ch> log [arduino #]
 
-*Memory usage*
+**Memory usage**
 
     ch> mem
 
-*Threads status*
+**Threads status**
 
     ch> threads
 
-*ChibiOS build information*
+**ChibiOS build information**
 
     ch> info
 
-*System time*
+**System time**
 
     ch> systime
 
-*Reboot*
+**Reboot**
 
     ch> reboot
 
