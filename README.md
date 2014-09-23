@@ -15,6 +15,10 @@ maximum use of the sensors in Ardustat. The code and configuration
 running on the Raspberry pi can be uploaded via serial console for
 remote management.
 
+In the global judging round of the Space Apps Challenge 2013 this
+project received an [Honorable Mention for Best Use of
+Hardware](http://open.nasa.gov/blog/2013/05/22/global-award-winners-for-the-2013-international-space-apps-challenge/).
+
 Build & Run
 -----------
 
