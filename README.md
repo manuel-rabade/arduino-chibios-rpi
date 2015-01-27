@@ -176,4 +176,4 @@ Manuel Rábade <[manuel@rabade.net](mailto:manuel@rabade.net)>
 License
 -------
 
-This work is licensed under a [Simplified BSD License](LICENSE.txt).
+This work is published under a [Simplified BSD License](LICENSE.txt).
